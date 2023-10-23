@@ -19,6 +19,7 @@ import {
   StyledAnswerCard,
   Answer,
   AnswerInner,
+  TitleUnderline,
 } from "../components/styled/StyledQuestionPage";
 import {
   StyledAnswer,
@@ -101,7 +102,10 @@ const Question = () => {
           <h1>Loading...</h1>
         ) : (
           <div>
-            <h2>{question.title}</h2>
+            <TitleUnderline>
+              <h2>{question.title}</h2>
+            </TitleUnderline>
+
             <p>{question.question}</p>
             <StyledQuestionInner>
               <h5>
@@ -109,70 +113,75 @@ const Question = () => {
                 {question.isEdited ? "edited" : "asked"} {question.createTime}
               </h5>
             </StyledQuestionInner>
-            {answers[0].answers.map((answer) => (
-              <StyledAnswerWrapper key={answer._id}>
-                {user && user.data._id === question.writerID && (
-                  <StyledlikeDislikeButtons>
-                    <ThumbUpAltIcon
-                      onClick={() => handleLike(answer._id, answer.isLiked)}
-                    />
+            {answers[0].answers.length <= 0 ? (
+              <h3>There are no answers</h3>
+            ) : (
+              answers[0].answers.map((answer) => (
+                <StyledAnswerWrapper key={answer._id}>
+                  {user && user.data._id === question.writerID && (
+                    <StyledlikeDislikeButtons>
+                      <ThumbUpAltIcon
+                        onClick={() => handleLike(answer._id, answer.isLiked)}
+                      />
 
-                    <ThumbDownAltIcon
-                      onClick={() =>
-                        handleDislike(answer._id, answer.isDisliked)
-                      }
-                    />
-                  </StyledlikeDislikeButtons>
-                )}
+                      <ThumbDownAltIcon
+                        onClick={() =>
+                          handleDislike(answer._id, answer.isDisliked)
+                        }
+                      />
+                    </StyledlikeDislikeButtons>
+                  )}
 
-                {user ? (
-                  user.data._id !== question.writerID && (
+                  {user ? (
+                    user.data._id !== question.writerID && (
+                      <StyledlikeDislikeButtonsNoHover>
+                        {answer.isLiked && <ThumbUpAltIcon />}
+                        {answer.isDisliked && <ThumbDownAltIcon />}
+                      </StyledlikeDislikeButtonsNoHover>
+                    )
+                  ) : (
                     <StyledlikeDislikeButtonsNoHover>
                       {answer.isLiked && <ThumbUpAltIcon />}
                       {answer.isDisliked && <ThumbDownAltIcon />}
                     </StyledlikeDislikeButtonsNoHover>
-                  )
-                ) : (
-                  <StyledlikeDislikeButtonsNoHover>
-                    {answer.isLiked && <ThumbUpAltIcon />}
-                    {answer.isDisliked && <ThumbDownAltIcon />}
-                  </StyledlikeDislikeButtonsNoHover>
-                )}
+                  )}
 
-                <StyledAnswerCard>
-                  <Answer>
-                    <p>{answer.answer}</p>
-                  </Answer>
+                  <StyledAnswerCard>
+                    <Answer>
+                      <p>{answer.answer}</p>
+                    </Answer>
 
-                  <AnswerInner>
-                    {user
-                      ? answer.writerID === user.data._id && (
-                          <StyledQuestionInner>
-                            <EditIcon
-                              onClick={() =>
-                                navigate(
-                                  generatePath(EDIT_ANSWER_PATH, {
-                                    id: answer._id,
-                                  })
-                                )
-                              }
-                            />
+                    <AnswerInner>
+                      {user
+                        ? answer.writerID === user.data._id && (
+                            <StyledQuestionInner>
+                              <EditIcon
+                                onClick={() =>
+                                  navigate(
+                                    generatePath(EDIT_ANSWER_PATH, {
+                                      id: answer._id,
+                                    })
+                                  )
+                                }
+                              />
 
-                            <DeleteIcon
-                              onClick={() => handleDelete(answer._id)}
-                            />
-                          </StyledQuestionInner>
-                        )
-                      : null}
-                    <h6>
-                      {answer.name}_{answer.surname}{" "}
-                      {answer.isEdited ? "edited answer" : "answered"}{" "}
-                      {answer.createTime}
-                    </h6>
-                  </AnswerInner>
-                </StyledAnswerCard>
-              </StyledAnswerWrapper>
-            ))}
+                              <DeleteIcon
+                                onClick={() => handleDelete(answer._id)}
+                              />
+                            </StyledQuestionInner>
+                          )
+                        : null}
+                      <h6>
+                        {answer.name}_{answer.surname}{" "}
+                        {answer.isEdited ? "edited answer" : "answered"}{" "}
+                        {answer.createTime}
+                      </h6>
+                    </AnswerInner>
+                  </StyledAnswerCard>
+                </StyledAnswerWrapper>
+              ))
+            )}
+
             <Formik
               initialValues={{ answer: "" }}
               onSubmit={handleSubmit}

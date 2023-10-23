@@ -9,7 +9,7 @@ export const StyledQuestionPage = styled.main`
 
 export const StyledQuestionInner = styled.div`
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
 
   h5 {
     color: gray;
@@ -32,6 +32,10 @@ export const StyledlikeDislikeButtonsNoHover = styled.div`
     cursor: default;
     transform: none;
   }
+`;
+
+export const TitleUnderline = styled.div`
+  border-bottom: 1px solid lightgray;
 `;
 
 export const StyledAnswerCard = styled.div`

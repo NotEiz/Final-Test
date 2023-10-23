@@ -1,7 +1,7 @@
 import { Routes, Route } from "react-router-dom";
 import { routes } from "./routeConsts";
-
-const AppRoutes = () => {
+console.log(routes.slice(0, 4));
+const LoggedIn = () => {
   return (
     <>
       <Routes>
@@ -13,4 +13,4 @@ const AppRoutes = () => {
   );
 };
 
-export default AppRoutes;
+export default LoggedIn;

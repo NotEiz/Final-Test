@@ -70,16 +70,18 @@ const Home = () => {
           )}
           <StyledHomeTop>
             <h2>Questions({questions.length})</h2>
-            <div>
-              <StyledSelect onChange={(e) => setAnswered(e.target.value)}>
-                <option value="false">All Questions</option>
-                <option value="answered">Answered</option>
-                <option value="notAnswered">Not Answered</option>
-              </StyledSelect>
-              <h4 onClick={() => setAsc(!asc)}>
-                Sort<span>({asc ? "oldest" : "newest"})</span>
-              </h4>
-            </div>
+            {questions.length > 0 && (
+              <div>
+                <StyledSelect onChange={(e) => setAnswered(e.target.value)}>
+                  <option value="false">All Questions</option>
+                  <option value="answered">Answered</option>
+                  <option value="notAnswered">Not Answered</option>
+                </StyledSelect>
+                <h4 onClick={() => setAsc(!asc)}>
+                  Sort<span>({asc ? "oldest" : "newest"})</span>
+                </h4>
+              </div>
+            )}
           </StyledHomeTop>
 
           {isLoading ? (
@@ -135,8 +137,6 @@ const Home = () => {
                 </QuestinCardInner>
               </StyledQuestionCard>
             ))
-          ) : questions.length === 0 ? (
-            <h1>Loading...</h1>
           ) : (
             <h1>There are no questions</h1>
           )}
